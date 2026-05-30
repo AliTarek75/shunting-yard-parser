@@ -1,9 +1,9 @@
 import java.util.Scanner;
 
-public class infixCalculator {
+public class InfixCalculator {
 
     private static final String operations = "(+-*/)";
-    private static final String percOrder = "+*";
+    private static final String precOrder = "+*";
 
     private static char equiv(char c) {
         if (c == '-') return '+';
@@ -11,8 +11,8 @@ public class infixCalculator {
         else return c;
     }
 
-    private static int percedence(char c) {
-        return percOrder.indexOf(equiv(c));
+    private static int precedence(char c) {
+        return precOrder.indexOf(equiv(c));
     }
 
     private static float calculate(char op, float v1, float v2) {
@@ -62,7 +62,7 @@ public class infixCalculator {
                 }
 
                 // Regular operators case
-                while (t > -1 && !stack[t].equals("(") && percedence(c) <= percedence(stack[t].charAt(0))) {
+                while (t > -1 && !stack[t].equals("(") && precedence(c) <= precedence(stack[t].charAt(0))) {
                     finalResult[i++] = stack[t--];
                 }
                 stack[++t] = opStr;
@@ -110,13 +110,12 @@ public class infixCalculator {
 
         return calcStack[0];
     }   
-
     public static void main(String[] args) {
-        System.out.println("Type a valid experssion using +, -, *, /, (, or ). For example (7+11)*5 ");
+        System.out.println("Type a valid expression using +, -, *, /, (, or ). For example (7+11)*5 ");
         System.out.print("Expression: ");
         Scanner scanner = new Scanner(System.in);
-        String expression = scanner.next();
-
+        String expression = scanner.nextLine();
+        expression = expression.replaceAll("\\s", "");
         System.out.print("Result: " + evaluateInfix(expression));
         scanner.close();
     }
